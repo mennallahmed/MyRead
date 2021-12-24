@@ -1,9 +1,10 @@
 import React from 'react'
 import * as BooksAPI from './BooksAPI'
 import './App.css'
+import {Link} from 'react-router-dom'
+import { Route } from 'react-router-dom'
 import Header from './Header'
 import Shelves from './Shelves'
-//import Book from './Book'
 import SearchBooks from './SearchBooks'
 
 class BooksApp extends React.Component {
@@ -14,7 +15,6 @@ class BooksApp extends React.Component {
      * users can use the browser's back and forward buttons to navigate between
      * pages, as well as provide a good URL they can bookmark and share.
      */
-    showSearchPage: false,
     books: [],
     query: '',
     searchedBooks: [],
@@ -30,7 +30,6 @@ class BooksApp extends React.Component {
 
   changeShelf = (SelectedBook, newShelf) =>{
     BooksAPI.update(SelectedBook, newShelf).then(response => {
-      // set shelf for new or updated book
       SelectedBook.shelf = newShelf;
       // update state with changed book
       this.setState(currentState => ({
@@ -70,19 +69,24 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
-        {this.state.showSearchPage ? (
-          <SearchBooks query={this.state.query} searchBook={this.searchBook} searchedBooks={this.state.searchedBooks} changeShelf={this.changeShelf} books={this.state.books}/>
-        ) : (
+        <Route exact path='/' render={() =>(
           <div className="list-books">
             <Header/>
             <div className="list-books-content">
              <Shelves books={this.state.books} changeShelf={this.changeShelf} />
             </div>
             <div className="open-search">
-              <button onClick={() => this.setState({ showSearchPage: true })}>Add a book</button>
+              <Link to ='/search' >
+              <button>Add a book</button>
+              </Link>
             </div>
-          </div>
-        )}
+          </div>          
+         )}
+        />
+        <Route path='/search' render={() =>(
+           <SearchBooks query={this.state.query} searchBook={this.searchBook} searchedBooks={this.state.searchedBooks} changeShelf={this.changeShelf} books={this.state.books}/>   
+           )}
+        />        
       </div>
     )
   }
