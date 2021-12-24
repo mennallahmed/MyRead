@@ -21,11 +21,11 @@ class BooksApp extends React.Component {
    
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     // get books from BooksAPI
-    BooksAPI.getAll().then(books => {
-      this.setState({ books })
-    });
+    const books = await BooksAPI.getAll()
+    this.setState({ books })
+ 
   }
 
   changeShelf = (SelectedBook, newShelf) =>{
@@ -44,7 +44,7 @@ class BooksApp extends React.Component {
 
   searchBook= (e) =>{
     e.preventDefault()
-    const query = e.target.value.trim()
+    const query = e.target.value
     this.setState({query: query })
     if(query){
     BooksAPI.search(query).then(response => {
