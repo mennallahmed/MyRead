@@ -21,7 +21,6 @@ const SearchBooks = ({query, searchBook, searchedBooks, changeShelf, books}) =>{
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
                 <input type="text" placeholder="Search by title or author" value={query} onChange={searchBook}/>
-                {console.log(query)}
               </div>
             </div>
             <div className="search-books-results">
